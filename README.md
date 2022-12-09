@@ -1,2 +1,2 @@
 # OIBSIP
-Oasis Infobyte-Java Programming Internship
+Oasis Infobyte-Java Programming Internship || Web Development and Designing
