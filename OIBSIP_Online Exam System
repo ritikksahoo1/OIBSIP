@@ -1,0 +1,396 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <unordered_map>
+
+using namespace std;
+
+class OnlineExamination {
+private:
+    string Full_Name;
+    string Gender;
+    string UserName;
+    string Password;
+    string Phone_Number;
+    int count = 0;
+    int score = 0;
+    int attempt = 0;
+    unordered_map<string, string> data;
+
+public:
+    void Register() {
+        cout << "...Registration..." << endl;
+        cout << "Enter Full Name: ";
+        getline(cin, Full_Name);
+        cout << "Enter Gender(M/F): ";
+        getline(cin, Gender);
+        while (!(Gender == "M" || Gender == "m" || Gender == "F" || Gender == "f")) {
+            cout << "Invalid...Please enter correct Gender(M/F): ";
+            getline(cin, Gender);
+        }
+        if (Gender == "M" || Gender == "m") {
+            Gender = "Male";
+        }
+        else {
+            Gender = "Female";
+        }
+        cout << "Enter Username: ";
+        getline(cin, UserName);
+        cout << "Enter Password: ";
+        getline(cin, Password);
+        data[UserName] = Password;
+        cout << "Enter Phone Number: ";
+        getline(cin, Phone_Number);
+        while (Phone_Number.length() != 10) {
+            cout << "!!! Please Enter Valid 10 Digit Mobile Number: ";
+            getline(cin, Phone_Number);
+        }
+        cout << "You are Successfully Registered..." << endl;
+        cout << "Please Login to Take Online Exam" << endl;
+    }
+
+    bool Login() {
+        bool log = false;
+        cout << "Enter your User name: ";
+        string Username;
+        getline(cin, Username);
+        if (data.count(Username)) {
+            cout << "Enter your Password: ";
+            string Pass_Word;
+            getline(cin, Pass_Word);
+            if (data.count(Username) && data[Username] == Pass_Word) {
+                cout << "Login Successful..." << endl;
+                log = true;
+            }
+            else {
+                cout << "You have Entered Wrong Password..." << endl;
+            }
+        }
+        else {
+            cout << "User doesn't Exist. Please Register first." << endl;
+        }
+        return log;
+    }
+
+    void View_Profile() {
+        cout << "Your Profile: " << endl;
+        cout << "Full Name: " << Full_Name << endl;
+        cout << "Gender: " << Gender << endl;
+        cout << "User Name: " << UserName << endl;
+        cout << "Password (Don't Share with anyone): " << Password << endl;
+        cout << "Phone Number: " << Phone_Number << endl;
+    }
+
+    void Update_Profile() {
+        cout << "Enter Username: ";
+        string Username;
+        getline(cin, Username);
+        if (Username == UserName) {
+            cout << "Select: \n1. To change Username\n2. To change Password" << endl;
+            int ch;
+            cout << "Your Option: ";
+            cin >> ch;
+            switch (ch) {
+            case 1:
+                Update_Username();
+                break;
+            case 2:
+                Update_PassWord();
+                break;
+            default:
+                cout << "Invalid option..." << endl;
+            }
+        }
+        else {
+            cout << "User Does not Exist. Please Register First" << endl;
+        }
+    }
+
+    void Update_Username() {
+        string User;
+        string User1;
+        cout << "Enter New User Name to Update: ";
+        cin.ignore();
+        getline(cin, User);
+        if (User != UserName) {
+            cout << "Confirm New User Name to Update: ";
+            getline(cin, User1);
+            if (User == User1) {
+                cout << "Username Updated Successfully..." << endl;
+                UserName = User1;
+            }
+            else {
+                cout << "You must type the same Username..." << endl;
+                Update_Username();
+            }
+        }
+        else {
+            cout << "New Username and Present Username cannot be the same..." << endl;
+            Update_Username();
+        }
+    }
+
+    void Update_PassWord() {
+        string Pass;
+        string Pass1;
+        cout << "Enter New Password to Update: ";
+        cin.ignore();
+        getline(cin, Pass);
+        if (Pass != Password) {
+            cout << "Confirm New Password to Update: ";
+            getline(cin, Pass1);
+            if (Pass == Pass1) {
+                cout << "Password Updated Successfully..." << endl;
+                Password = Pass1;
+            }
+            else {
+                cout << "You must type the same Password..." << endl;
+                Update_PassWord();
+            }
+        }
+        else {
+            cout << "New Password and Present Password cannot be the same..." << endl;
+            Update_PassWord();
+        }
+    }
+
+    void Take_exam() {
+        long examtime = time(nullptr);
+        long endtime = examtime + 45;
+        int ans;
+        int ch;
+        cout << "Select Subject to take exam: " << endl;
+        cout << "1. Mathematics\n2. Java Programming\n3. C-Programming Language" << endl;
+        cout << "Your choice: ";
+        cin >> ch;
+        cin.ignore();
+        if (ch == 1) {
+            cout << "Welcome to Mathematics Exam: " << endl;
+            cout << "Each Question carries 10 marks -5 for wrong answers" << endl;
+            cout << "You have 45 seconds to answer 5 questions" << endl;
+            attempt = 0;
+            while (time(nullptr) < endtime) {
+                count = 0;
+                cout << "Question 1. 32/16 = ?" << endl;
+                cout << "Option 1. 2\nOption 2. 3\nOption 3. 4\nOption 4. 5\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 1) {
+                    count++;
+                }
+                cout << "Question 2. 100*10 = ?" << endl;
+                cout << "Option 1. 10\nOption 2. 100\nOption 3. 1000\nOption 4. 10000\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 3) {
+                    count++;
+                }
+                cout << "Question 3. 1+10 = ?" << endl;
+                cout << "Option 1. 9\nOption 2. 11\nOption 3. 7\nOption 4. 13\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 2) {
+                    count++;
+                }
+                cout << "Question 4. 15*9 = ?" << endl;
+                cout << "Option 1. 120\nOption 2. 150\nOption 3. 159\nOption 4. 135\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 4) {
+                    count++;
+                }
+                cout << "Question 5. 20-0 = ?" << endl;
+                cout << "Option 1. 20\nOption 2. 0\nOption 3. 19\nOption 4. 15\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 1) {
+                    count++;
+                }
+                attempt++;
+                break;
+            }
+        }
+        else if (ch == 2) {
+            cout << "Welcome to Java Programming Exam: " << endl;
+            cout << "Each Question carries 10 marks -5 for wrong answers" << endl;
+            cout << "You have 45 seconds to answer 5 questions" << endl;
+            attempt = 0;
+            while (time(nullptr) < endtime) {
+                count = 0;
+                cout << "Question 1. Java is developed by : " << endl;
+                cout << "Option 1. Dennis Ritchie\nOption 2. James Gosling\nOption 3. Sundar Pichai\nOption 4. Satya Nadella\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 2) {
+                    count++;
+                }
+                cout << "Question 2. Java is : " << endl;
+                cout << "Option 1. Platform InDependent\nOption 2. Platform Dependent\nOption 3. Both 1 and 2\nOption 4. None\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 1) {
+                    count++;
+                }
+                cout << "Question 3. After Compilation Java generates : " << endl;
+                cout << "Option 1. Object File\nOption 2. Zip File\nOption 3. Class File\nOption 4. Rar File\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 3) {
+                    count++;
+                }
+                cout << "Question 4. Java is : " << endl;
+                cout << "Option 1. Compiled Language\nOption 2. Interpreted Language\nOption 3. Both 1 and 2\nOption 4. None\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 3) {
+                    count++;
+                }
+                cout << "Question 5. To save java files we use :" << endl;
+                cout << "Option 1. .jv\nOption 2. .jvm\nOption 3. .javac\nOption 4. .java\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 4) {
+                    count++;
+                }
+                attempt++;
+                break;
+            }
+        }
+        else if (ch == 3) {
+            cout << "Welcome to C-Programming Language Exam: " << endl;
+            cout << "Each Question carries 10 marks -5 for wrong answers" << endl;
+            cout << "You have 45 seconds to answer 5 questions" << endl;
+            attempt = 0;
+            while (time(nullptr) < endtime) {
+                count = 0;
+                cout << "Question 1. C is developed by : " << endl;
+                cout << "Option 1. James Gosling\nOption 2. Sundar Pichai\nOption 3. Dennis Ritchie\nOption 4. Mark Zukenburg\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 3) {
+                    count++;
+                }
+                cout << "Question 2. C is a : " << endl;
+                cout << "Option 1. Compiled Language\nOption 2. Interpreted Language\nOption 3. Both 1 and 2\nOption 4. None\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 1) {
+                    count++;
+                }
+                cout << "Question 3. C is a :" << endl;
+                cout << "Option 1. Object Oriented\nOption 2. Procedure Oriented\nOption 3. Both 1 and 2\nOption 4. None\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 2) {
+                    count++;
+                }
+                cout << "Question 4. All keywords in C are in : " << endl;
+                cout << "Option 1. LowerCase letters\nOption 2. UpperCase letters\nOption 3. CamelCase letters\nOption 4. None of the mentioned\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 1) {
+                    count++;
+                }
+                cout << "Question 5. Which keyword is used to prevent any changes in the variable within a C program : " << endl;
+                cout << "Option 1. immutable\nOption 2. mutable\nOption 3. const\nOption 4. volatile\n" << endl;
+                cout << "Enter Your Answer: ";
+                cin >> ans;
+                if (ans == 3) {
+                    count++;
+                }
+                attempt++;
+                break;
+            }
+        }
+        else {
+            cout << "Invalid option...Please Try Again..." << endl;
+            Take_exam();
+        }
+    }
+
+    void View_Marks() {
+        int score = (10 * count) - ((5 - count) * 5);
+        if (score == 50) {
+            cout << "Congratulations...." << endl;
+        }
+        else if (score < 50 && score >= 35) {
+            cout << "Well Done..." << endl;
+        }
+        else if (score < 35 && score >= 20) {
+            cout << "Well Tried..." << endl;
+        }
+        else if (score < 20 && score >= 10) {
+            cout << "Good..." << endl;
+        }
+        else {
+            cout << "Ok! Try Again..." << endl;
+        }
+        if (attempt == 1) {
+            cout << "Your Score: " << score << "/50" << endl;
+        }
+        else {
+            cout << "You haven't Written any exam..." << endl;
+        }
+    }
+};
+
+int main() {
+    cout << "-------WELCOME TO ONLINE EXAMINATION-------" << endl;
+    cout << "Please Register first to write the exam..." << endl;
+    cout << "1. Register (New Users should Register First)\n2. Exit" << endl;
+    int choice;
+    cout << "Your choice: ";
+    cin >> choice;
+    cin.ignore();
+    if (choice == 1) {
+        OnlineExamination exam;
+        exam.Register();
+        while (choice == 1) {
+            cout << "\nSelect any one option: " << endl;
+            cout << "1. Login (If already Registered)\n2. Exit" << endl;
+            int option;
+            cout << "Your option: ";
+            cin >> option;
+            cin.ignore();
+            if (option == 1) {
+                if (exam.Login()) {
+                    while (true) {
+                        cout << "\n\nWelcome to Online Examination" << endl;
+                        cout << "1. View Profile\n2. Update Profile and Password\n3. Take Exam\n4. View Marks\n5. Logout" << endl;
+                        cout << "Enter your option: ";
+                        int select;
+                        cin >> select;
+                        cin.ignore();
+                        switch (select) {
+                        case 1:
+                            exam.View_Profile();
+                            break;
+                        case 2:
+                            exam.Update_Profile();
+                            break;
+                        case 3:
+                            exam.Take_exam();
+                            break;
+                        case 4:
+                            exam.View_Marks();
+                            break;
+                        case 5:
+                            cout << "\nLogged out Successfully..." << endl;
+                            return 0;
+                        default:
+                            cout << "Invalid option!...Enter Valid option..." << endl;
+                        }
+                    }
+                }
+            }
+            else {
+                cout << "\nThank you...Visit Again...:)" << endl;
+                return 0;
+            }
+        }
+    }
+    else {
+        cout << "\nThank you...Visit Again...:)" << endl;
+        return 0;
+    }
+}
